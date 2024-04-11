@@ -96,7 +96,7 @@ require_once "app.config.php";
 
                     $queryResult = mysqli_query($link, "SELECT * FROM purchase LIMIT $limit OFFSET $offset");
                     if (mysqli_num_rows($queryResult) === 0) {
-                        echo '<hr><span class="alert alert-danger mx-auto text-center" style="display: inline-block; width: 100%;">No data found...</span>';
+                        echo '<hr><span class="alert alert-danger mx-auto text-center" style="display: inline-block; width: 100%;">Даних не знайдено...</span>';
                     } else {
                         echo '<table class="table table-striped table-hover table-bordered mt-5">
                                 <thead>
