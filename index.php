@@ -48,6 +48,7 @@ require_once "app.config.php";
     </style>
     <script>
         $(document).ready(function (){
+            // flash message hide handler
             if($('.operation span.alert').length){
                 setTimeout(() => {
                     $('.operation span.alert').fadeOut(400).remove()
@@ -63,6 +64,7 @@ require_once "app.config.php";
         <div class="row">
             <div class="col-md-12 operation">
                 <?php
+                    // Flash message for operation result
                     if (isset($_SESSION['operation'])) {
                         echo "<span class='alert alert-".$_SESSION['operation']."'>";
                         echo $_SESSION['message'];
@@ -86,6 +88,7 @@ require_once "app.config.php";
 
                 <?php
                 try {
+                    // work with pagination parameters
                     $limit = $_SESSION['pageSize'];
                     $currentPage = $_GET['page'] ?? $_SESSION['page'];
                     $offset = ($currentPage - 1) * $limit;
@@ -94,6 +97,7 @@ require_once "app.config.php";
                     $totalRecordsCount = (int)mysqli_fetch_assoc($queryForCount)['c'];
                     $totalPagesCount = ceil($totalRecordsCount / $limit);
 
+                    // get rows with data from DB
                     $queryResult = mysqli_query($link, "SELECT * FROM purchase LIMIT $limit OFFSET $offset");
                     if (mysqli_num_rows($queryResult) === 0) {
                         echo '<hr><span class="alert alert-danger mx-auto text-center" style="display: inline-block; width: 100%;">Даних не знайдено...</span>';

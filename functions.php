@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * sanitize inputed attribute from special characters and whitespaces
+ */
 function sanitizeAttribute($attribute)
 {
     $result = stripslashes($attribute);
@@ -8,6 +11,9 @@ function sanitizeAttribute($attribute)
     return trim($result);
 }
 
+/*
+ * validate attribute via special type filter (in addition with required HTML-attribute)
+ */
 function validateAttribute($attribute, $filterType = 'string')
 {
     $result = match ($filterType) {

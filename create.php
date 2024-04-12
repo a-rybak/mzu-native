@@ -5,7 +5,11 @@ require_once "functions.php";
 $productName = $quantity = $amount = $measure = $purchasedAt = "";
 $errors = [];
 
+
+// if form has submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // validate input attributes
     $productName = sanitizeAttribute($_POST['product_name']);
     if (!validateAttribute($productName)) {
         $errors['productName'] = "В назві дозволені тільки літери";
@@ -25,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $measure = sanitizeAttribute($_POST['measure']);
 
+    // if errors array is empty - insert data
     if (!sizeof($errors)) {
 
         $sqlQuery = "INSERT INTO purchase(product_name, quantity, amount, purchased_at, measure) VALUES (?,?,?,?,?);";
@@ -32,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($statement = mysqli_prepare($link, $sqlQuery)) {
 
+                // set params with their types
                 mysqli_stmt_bind_param($statement, "sidis", $prsName, $prsQuantity, $prsPrice, $prsDate, $prsMeasure);
 
                 $prsName = $productName;
@@ -40,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $prsDate = $purchasedAt;
                 $prsMeasure = $measure;
 
+                // execute insert query
                 if (mysqli_stmt_execute($statement)) {
                     $_SESSION['operation'] = 'success';
                     $_SESSION['message'] = "Запис успiшно додано в БД";
@@ -49,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     throw new Exception('Insert data failed!');
                 }
             }
-        } catch (Exception $e) {
+        } catch (Exception $e) { // catch query errors
             $_SESSION['operation'] = 'danger';
             $_SESSION['message'] = "Помилка! Запис не вдалося додати до БД";
             echo "<pre>";
